@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`permaproxy when getter returns an object should return prototype of that object 1`] = `Foo {}`;
