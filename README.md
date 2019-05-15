@@ -23,6 +23,6 @@ Suppose you have some internal object exists in a container. You want to return 
 
 ## Credits
 
-Licensed under [Apache-2.0 License].  
+Licensed under [Apache-2.0 License](LICENSE).  
 Original authorship: [Roger Qiu](https://github.com/CMCDragonkai) (2017).  
 Fork authorship: [Yaroslav Serhieiev](https://github.com/noomorph) (2019).
