@@ -3,7 +3,9 @@
 [![npm version](https://badge.fury.io/js/funpermaproxy.svg)](https://badge.fury.io/js/funpermaproxy)
 [![Build Status](https://travis-ci.org/wix-incubator/funpermaproxy.svg?branch=master)](https://travis-ci.org/wix-incubator/funpermaproxy)
 
-**funpermaproxy** is a fork of [MatrixAI/js-permaproxy](https://github.com/MatrixAI/js-permaproxy) with some key differences and a continous integration suite.
+**funpermaproxy** (functional permaproxy) is about proxying an object mediated through a getter function.
+
+In itself, it is a fork of [MatrixAI/js-permaproxy](https://github.com/MatrixAI/js-permaproxy) with some key differences and a continous integration suite.
 
 The original repository was licensed under **Apache-2.0**, and this fork inherits [the license](LICENSE).
 
