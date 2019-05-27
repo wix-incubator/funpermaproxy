@@ -8,6 +8,47 @@ The original repository was licensed under **Apache-2.0**, and this fork inherit
 
 ![License screenshot](img/js-permaproxy-license.png)
 
+## Example of usage
+
+* `provider.js`:
+
+  ```javascript
+  let facade;
+  let counter = 0;
+
+  function init() {
+    counter++;
+
+    facade = {
+      get id() { return counter; },
+    };
+  }
+
+  function destroy() {
+    facade = null;
+  }
+
+  module.exports = {
+    init,
+    destroy,
+    facade: require('funpermaproxy')(() => facade),
+  };
+  ```
+
+* `consumer.js`:
+
+  ```javascript
+  const { init, destroy, facade } = require('./provider');
+
+  console.log(facade.id); // undefined (does not throw, behaves like an empty object)
+  init();
+  console.log(facade.id); // 1 (we retain the same reference, but now it points to the actual module variable)
+  init();
+  console.log(facade.id); // 2 (the same reference, but now it points to an instance we initialized for the second time)
+  destroy();
+  console.log(facade.id); // undefined (again behavis as an empty object fallback)
+  ```
+
 ## Original description
 
 PermaProxy is a proxy pattern for proxying an object mediated through a container.
