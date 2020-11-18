@@ -26,6 +26,6 @@
   "homepage": "https://github.com/wix-incubator/funpermaproxy#readme",
   "devDependencies": {
     "jest": "^24.8.0",
-    "semantic-release": "^15.13.12"
+    "semantic-release": "^17.2.3"
   }
 }
