@@ -86,3 +86,87 @@ describe('permaproxy', () => {
     expect(Object.keys(proxy)).toEqual(keys);
   }
 });
+
+describe('permaproxy.callable', () => {
+  let fn;
+  let proxy;
+
+  beforeEach(() => {
+    proxy = permaproxy.callable(() => fn);
+  });
+
+  describe('when getter returns falsy value', () => {
+    beforeEach(() => { fn = null; });
+
+    it('should behave like a noop function', () => {
+      expect(proxy.length).toBe(0);
+      expect(proxy()).toBe(undefined);
+    });
+
+    it('should remember changes to it', () => {
+      proxy.someProp = 42;
+      expect(proxy.someProp).toBe(42);
+      delete proxy.someProp;
+      expect(proxy.someProp).toBe(undefined);
+    });
+  });
+
+  describe('when getter returns a function', () => {
+    beforeEach(() => {
+      fn = function (x) {
+        return (this && this.x || 0) + x;
+      };
+    });
+
+    it('should allow getting regular function properties', () => {
+      expect(proxy.length).toBe(1);
+    });
+
+    it('should allow calling that function', () => {
+      expect(proxy(100)).toBe(100);
+    });
+
+    it('should allow calling function with implicit this', () => {
+      const a = { x: 10, fn: proxy };
+      expect(a.fn(5)).toBe(15);
+    });
+
+    it('should allow swapping the implementation', () => {
+      expect(proxy(5)).toBe(5);
+      fn = (a,b,c) => a + b + c;
+      expect(proxy('hello', ' ', 'world')).toBe('hello world');
+    });
+  });
+
+  describe('when getter returns a constructor', () => {
+    beforeEach(() => {
+      fn = function Point(x, y) {
+        if (!(this instanceof Point)) {
+          return new Point(x, y);
+        }
+
+        this.x = x;
+        this.y = y;
+      };
+    });
+
+    it('should allow constructing', () => {
+      expect(new proxy(2, 3)).toEqual({ x: 2, y: 3});
+    });
+
+    it('should allow overriding thisArg', () => {
+      expect(proxy(2, 3)).toEqual({ x: 2, y: 3});
+    });
+
+    it('should allow classes', () => {
+      fn = class Point {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+      }
+
+      expect(new proxy(2, 3)).toEqual({ x: 2, y: 3});
+    });
+  });
+});
